@@ -216,7 +216,7 @@ function renderTask({ id, title, description, dueDate, completed }) {
   let html = `
     <li class="select-none mt-2 py-2 border-b border-pink-300">
       <div class="flex items-center">
-      <input type="checkbox" ${completed ? "checked" : ""} onchange="Task(${id}) "id="check${id}" class="mx-2 my-2">
+      <input type="checkbox" ${completed ? "checked" : ""} onchange="checkTask(${id}) "id="check${id}" class="mx-2 my-2">
       <h3 class="mb-3 flex-1 text-xl font-bold text-violet-900 uppercase">${title}</h3>
         <div>
           <span>${dueDate}</span>
@@ -264,16 +264,16 @@ function deleteTask(id) {
 Funktionen bör ta emot ett id som skickas från <li>-elementet.
 */
 
-function Task(id){
-  const check = document.getElementById(`checkBox${id}`);
-  // console.log(check.checked);
+function checkTask(id){
+  const completed = document.getElementById(`check${id}`);
+  // console.log(completed.checked);
 
-  if(check.checked == true){
+  if(completed.checked == true){
     const checked = {"completed": true};
     api.update(id, checked).then((result) => renderList());
    }
    
-   else if (check.checked == false){
+   else if (completed.checked == false){
     const notchecked = {"completed": false};
     api.update(id, notchecked).then((result) => renderList());
    }

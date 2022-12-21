@@ -99,7 +99,7 @@ class Api {
   
   
   /* Read - GET */
-  update() {
+  update(id,data) {
     /* I detta fetch-anrop behövs inga särskilda inställningar. Fetch kan ta bara url:en som parameter också, istället för att man skapar ett helt request-objekt och skickar in det. */
   const JSONData = JSON.stringify(data);
   
