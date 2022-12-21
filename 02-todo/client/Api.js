@@ -1,14 +1,10 @@
 /* I denna fil finns en klass för att hantera API-förfrågningar mot server (servern är det backend som skapades i lektion 5).
-
 Om ni vill testa denna kod, kom då ihåg att starta upp servern. Servern, såsom den ser ut i slutet av Lektion 6, finns i denna samma zip-fil. Om ni skulle köra denna kod mot backend såsom det såg ut efter Lektion 5, skulle det inte fungera, eftersom detta är koden såsom den ser ut efter Lektion 6 och några små förändringar gjordes även i servern under Lektion 6. 
-
 Gör då följande
 1. Öppna en terminal
 2. Skriv cd 02-todo/server (utan citattecken) och sedan enter
 3. Skriv "node app.js" (utan citattecken) och enter. 
-
 Om servern startats korrekt syns nu texten "Server running on http://localhost:5000".
-
 */
 
 /* För att skapa en klass används nyckelordet class följt av klassens namn. Klasser bör ha stor inledande bokstav och döpas enligt det som kallas PascalCase. Inga parenteser används vid skapande av en klass. */
@@ -33,17 +29,13 @@ class Api {
     console.log(`Sending ${JSONData} to ${this.url}`);
 
     /* Nedan skapas ett requestobjekt. Requestobjekt finns inbyggda i JavaScript tack vare JavaScripts fetch API. 
-
     Till request-objektets konstruktor skickas
     1. URL:en dit man vill göra förfrågan. I vårt fall det som man skickade in när klassen skapades och som lagrades i medlemsvariabeln this.url. 
     2. Ett objekt med konfiguration rörande förfrågan. 
-
     Objektet har följande egenskaper:
     
     method, som har satts till "POST". Eftersom vi här ska skapa något så är POST den metod man vill ha. 
-
     body, som har satts till den sträng som skapades utifrån det objekt som skickades in så att innehållet - body - i förfrågan kommer att innehålla en strängrepresentation av det som vi vill skapa. I fallet med vår todo-applikaiton kommer det att vara den uppgift som vi vill spara till servern. 
-
     headers, som är metadata som beskriver olika saker om själva förfrågan. Headers skickas in i form av ett JavaScript-objekt det också och här sätts egenskapen content-type för att beskriva på vilket sätt data är formaterat så att servern vet hur det ska avkodas när det packas upp på serversidan. 
       
     */
@@ -91,11 +83,8 @@ class Api {
     console.log(`Removing task with id ${id}`);
 
     /* Här behövs, precis som vid POST, lite mer inställningar. Fetch behöver dock inte heller här ett requestobjekt. Det går bra att skicka de sakerna som man skulle ha skickat till requestobjektets konstruktor direkt till fetch-funktionen. 
-
     Det som skickas in som förfrågan är alltså url, som första argument och en uppsättning inställningar i ett objekt, som andra argument. Precis som när POST-requesten skapades ovan, i create ovan. 
-
     Det enda som finns i objektet, som skickas in som andra argument till fetch, är att sätta method till delete, eftersom det är den HTTP-metoden som ska användas här. 
-
     Egentligen skulle jag ha kunnat satt exakt samma kedja av then-anrop här som vid create (POST) och getAll (READ), men det är inte helt relevant vad som kommer till baka från ett delete-anrop. 
     */
     return fetch(`${this.url}/${id}`, {
@@ -110,13 +99,24 @@ class Api {
   
   
   /* Read - GET */
-  getUpdate() {
+  update() {
     /* I detta fetch-anrop behövs inga särskilda inställningar. Fetch kan ta bara url:en som parameter också, istället för att man skapar ett helt request-objekt och skickar in det. */
-    return fetch(this.url)
-      .then((result) => result.json())
-      .then((data) => data)
+  const JSONData = JSON.stringify(data);
+  
+  
+    return fetch(`${this.url}/${id}`, {
+      method: "PUT",
+      body: JSONData,
+      headers: {
+        'content-type': 'application/json'
+      }
+
+      })
+      .then((response) => response.json()
+      .then((result) => console.log(result)))
       .catch((err) => console.log(err));
   }
+  
   /*
   Beroende på om ni gör frontend eller backend först i labben behöver ni på något av ställena bestämma er för en av metoderna PUT eller PATCH för denna förfrågan. (Du får välja själv, läs på om vad som verkar mest vettigt för din lösning). Använder du metoden PATCH här behöver i alla fall det vara patch som tas emot i servern också, app.patch(...), och vice versa om du väljer PUT. 
   */
