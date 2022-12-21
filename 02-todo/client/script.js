@@ -213,11 +213,14 @@ function renderTask({ id, title, description, dueDate, completed }) {
   
   När eventlyssnaren kopplas till knappen här nedanför, görs det däremot i HTML-kod och inte JavaScript. Man sätter ett HTML-attribut och refererar till eventlyssnarfunktionen istället. Då fungerar det annorlunda och parenteser är tillåtna. */
   // <input type="checkbox"  ${completed ? "checked" : ""} onchange="Task(${id})" id="${id}" class="mx-2 my-2">
+  const taskColor = completed == true ? "text-green-500" : "text-rose-800";
+
+
   let html = `
-    <li class="select-none mt-2 py-2 border-b border-pink-300">
+    <li class="select-none mt-2 py-2 border-b border-pink-300 ${taskColor}">
       <div class="flex items-center">
       <input type="checkbox" ${completed ? "checked" : ""} onchange="checkTask(${id}) "id="check${id}" class="mx-2 my-2">
-      <h3 class="mb-3 flex-1 text-xl font-bold text-violet-900 uppercase">${title}</h3>
+      <h3 class="mb-3 flex-1 text-xl font-bold uppercase">${title}</h3>
         <div>
           <span>${dueDate}</span>
           <button onclick="deleteTask(${id})" class="inline-block bg-violet-300 text-xs text-violet-700 border border-pink px-3 py-1 rounded-md ml-2">Ta bort</button>
